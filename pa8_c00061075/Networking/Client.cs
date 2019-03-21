@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace pa8_c00061075.Networking
 {
@@ -41,6 +42,7 @@ namespace pa8_c00061075.Networking
         }
         private static void ClientMessageReceived(IPEndPoint sender, string message)
         {
+            MessageBox.Show($"{sender}: {message}");
             Console.WriteLine($"{sender}: {message}");
         }
     }

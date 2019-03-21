@@ -42,69 +42,8 @@ namespace pa8_c00061075.Game
 
             List<Coordinates> myCoords = new List<Coordinates>();
 
-            bool hasGenerated = false;
 
-            if (IsLeftCorner(startX, startY))
-            {
-                if (myOrientation == ShipOrientation.Horizontal)
-                {
-                    // Have to go to the right  (top left, bottom left)
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Coordinates co = new Coordinates(startX, startY);
-                        myCoords.Add(co);
-                        startY++;
-                    }
-                }
-                else
-                {
-                    // Vertical
-                    // Have to go to the up or down
-                    int temp = startX;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Coordinates co = new Coordinates(startX, startY);
-                        myCoords.Add(co);
-                        if (temp == 0)
-                            startX++;
-                        if (temp == 4)
-                            startX--;
-                    }
-                }
-                hasGenerated = true;
-            }
-            else if (IsRightCorner(startX, startY))
-            {
-                if (myOrientation == ShipOrientation.Horizontal)
-                {
-                    // Have to go to the left  (top right, bottom right)
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Coordinates co = new Coordinates(startX, startY);
-                        myCoords.Add(co);
-                        startY--;
-                    }
-                }
-                else
-                {
-                    // Vertical
-                    // Have to go to the up or down
-                    int temp = startX;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Coordinates co = new Coordinates(startX, startY);
-                        myCoords.Add(co);
-                        if (temp == 0)
-                            startX++;
-                        if (temp == 4)
-                            startX--;
-                    }
-                }
-                hasGenerated = true;
-            }
-
-
-            if (!hasGenerated && myOrientation == ShipOrientation.Vertical)
+            if (myOrientation == ShipOrientation.Vertical)
             {
                 int temp = startX;
                 // Must go down
@@ -143,7 +82,7 @@ namespace pa8_c00061075.Game
 
                 }
             }
-            else if(!hasGenerated && myOrientation == ShipOrientation.Horizontal)
+            else if(myOrientation == ShipOrientation.Horizontal)
             {
                 int temp = startY;
                 // Must go right
