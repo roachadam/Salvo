@@ -1,59 +1,74 @@
 ﻿
-using GenericProtocol;
 using GenericProtocol.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using ZeroFormatter;
+using pa8_c00061075.Structs;
 
 namespace pa8_c00061075.Networking
 {
     class Server
     {
-        private ProtoServer<string> _server;
+        private ProtoServer<SalvoData> _server;
+
+        public event AttackHandler Attack = delegate { };
+        public delegate void AttackHandler(SalvoAttack attack);
+
+        public event AttackResultHandler AttackResult = delegate { };
+        public delegate void AttackResultHandler(SalvoAttackResult attackResult);
+
+        public event WinResultHandler WinResult = delegate { };
+        public delegate void WinResultHandler(SalvoWinResult winResult);
+
         public Server()
         {
-
+            _server = new ProtoServer<SalvoData>(IPAddress.Any, 51111)
+            {
+                ReceiveBufferSize = 1024 * 10,
+                SendBufferSize = 1024 * 10
+            };
+            _server.ClientConnected += ClientConnected;
+            _server.ReceivedMessage += ServerMessageReceived;
         }
 
         public void StartServer()
         {
-            _server =  new ProtoServer<string>(IPAddress.Any, 51111);
             Console.WriteLine("Starting Server...");
             _server.Start();
             Console.WriteLine("Server started!");
-            _server.ClientConnected += ClientConnected;
-            _server.ReceivedMessage += ServerMessageReceived;
-        }
-        private async void ServerMessageReceived(IPEndPoint sender, string message)
-        {
-            Console.WriteLine($"{sender}: {message}");
-            await _server.Send($"Hello {sender}!", sender);
         }
 
-        private void ClientMessageReceived(IPEndPoint sender, string message)
+        private void ServerMessageReceived(IPEndPoint sender, SalvoData data)
         {
-            Console.WriteLine($"{sender}: {message}");
+            Console.WriteLine(data.Message);
+            if (data.IsAttack)
+                Attack(data.Attack);
+
+            if (data.IsAttackResult)
+                AttackResult(data.AttackResult);
+
         }
 
-        private async void ClientConnected(IPEndPoint address)
+        public void SendAttackResult(SalvoData result)
         {
-            await _server.Send($"Hello {address}!", address);
+            _server?.Broadcast(result);
         }
+
+        public void LaunchAttack(SalvoData data)
+        {
+            _server?.Broadcast(data);
+        }
+
+        public void SendWinResult(SalvoData data)
+        {
+            _server?.Broadcast(data);
+        }
+        private void ClientConnected(IPEndPoint address)
+        {
+            Console.WriteLine("Client connected");
+        }
+
     }
-    [ZeroFormattable]
-    public struct MessageObject
-    {
-        [Index(0)]
-        public string Sender { get; set; }
-        [Index(1)]
-        public string Recipient { get; set; }
-        [Index(2)]
-        public string Message { get; set; }
-        [Index(3)]
-        public DateTime Timestamp { get; set; }
-    }
+
 }

@@ -2,7 +2,7 @@
 
 namespace pa8_c00061075.Models
 {
-    class Location
+    public class Location
     {
         public List<Coordinates> Coordinates;
 

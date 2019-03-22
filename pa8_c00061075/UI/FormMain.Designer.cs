@@ -104,7 +104,26 @@
             this.salvoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnLaunch = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbLocation = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lGrid = new System.Windows.Forms.Label();
+            this.lHitMiss = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lOHit = new System.Windows.Forms.Label();
+            this.lOGrid = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // y00
@@ -891,7 +910,9 @@
             // 
             this.salvoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startServerToolStripMenuItem,
-            this.connectToServerToolStripMenuItem});
+            this.connectToServerToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
             this.salvoToolStripMenuItem.Name = "salvoToolStripMenuItem";
             this.salvoToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.salvoToolStripMenuItem.Text = "Salvo";
@@ -910,12 +931,164 @@
             this.connectToServerToolStripMenuItem.Text = "Connect to Server";
             this.connectToServerToolStripMenuItem.Click += new System.EventHandler(this.connectToServerToolStripMenuItem_Click);
             // 
+            // btnLaunch
+            // 
+            this.btnLaunch.Location = new System.Drawing.Point(201, 30);
+            this.btnLaunch.Name = "btnLaunch";
+            this.btnLaunch.Size = new System.Drawing.Size(83, 24);
+            this.btnLaunch.TabIndex = 97;
+            this.btnLaunch.Text = "Launch";
+            this.btnLaunch.UseVisualStyleBackColor = true;
+            this.btnLaunch.Click += new System.EventHandler(this.btnLaunch_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label23);
+            this.groupBox1.Controls.Add(this.cbLocation);
+            this.groupBox1.Controls.Add(this.btnLaunch);
+            this.groupBox1.Location = new System.Drawing.Point(62, 519);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(399, 75);
+            this.groupBox1.TabIndex = 98;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Launch Attack";
+            // 
+            // cbLocation
+            // 
+            this.cbLocation.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbLocation.FormattingEnabled = true;
+            this.cbLocation.Location = new System.Drawing.Point(111, 31);
+            this.cbLocation.Name = "cbLocation";
+            this.cbLocation.Size = new System.Drawing.Size(84, 21);
+            this.cbLocation.TabIndex = 98;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(18, 34);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(87, 13);
+            this.label23.TabIndex = 99;
+            this.label23.Text = "Grid Location:";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lHitMiss);
+            this.groupBox2.Controls.Add(this.lGrid);
+            this.groupBox2.Controls.Add(this.label25);
+            this.groupBox2.Controls.Add(this.label24);
+            this.groupBox2.Location = new System.Drawing.Point(62, 601);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(399, 75);
+            this.groupBox2.TabIndex = 100;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Last Attack Result";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(27, 26);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(87, 13);
+            this.label24.TabIndex = 99;
+            this.label24.Text = "Grid Location:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(43, 45);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(71, 13);
+            this.label25.TabIndex = 100;
+            this.label25.Text = "Hit or Miss:";
+            // 
+            // lGrid
+            // 
+            this.lGrid.AutoSize = true;
+            this.lGrid.Location = new System.Drawing.Point(120, 26);
+            this.lGrid.Name = "lGrid";
+            this.lGrid.Size = new System.Drawing.Size(28, 13);
+            this.lGrid.TabIndex = 101;
+            this.lGrid.Text = "N/A";
+            // 
+            // lHitMiss
+            // 
+            this.lHitMiss.AutoSize = true;
+            this.lHitMiss.Location = new System.Drawing.Point(120, 45);
+            this.lHitMiss.Name = "lHitMiss";
+            this.lHitMiss.Size = new System.Drawing.Size(28, 13);
+            this.lHitMiss.TabIndex = 102;
+            this.lHitMiss.Text = "N/A";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lOHit);
+            this.groupBox3.Controls.Add(this.lOGrid);
+            this.groupBox3.Controls.Add(this.label28);
+            this.groupBox3.Controls.Add(this.label29);
+            this.groupBox3.Location = new System.Drawing.Point(542, 519);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(399, 75);
+            this.groupBox3.TabIndex = 103;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Opponent Last Attack Result";
+            // 
+            // lOHit
+            // 
+            this.lOHit.AutoSize = true;
+            this.lOHit.Location = new System.Drawing.Point(120, 45);
+            this.lOHit.Name = "lOHit";
+            this.lOHit.Size = new System.Drawing.Size(28, 13);
+            this.lOHit.TabIndex = 102;
+            this.lOHit.Text = "N/A";
+            // 
+            // lOGrid
+            // 
+            this.lOGrid.AutoSize = true;
+            this.lOGrid.Location = new System.Drawing.Point(120, 26);
+            this.lOGrid.Name = "lOGrid";
+            this.lOGrid.Size = new System.Drawing.Size(28, 13);
+            this.lOGrid.TabIndex = 101;
+            this.lOGrid.Text = "N/A";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(43, 45);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(71, 13);
+            this.label28.TabIndex = 100;
+            this.label28.Text = "Hit or Miss:";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(27, 26);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(87, 13);
+            this.label29.TabIndex = 99;
+            this.label29.Text = "Grid Location:";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1013, 589);
+            this.ClientSize = new System.Drawing.Size(1013, 688);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.o44);
@@ -993,9 +1166,16 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Salvo";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1079,6 +1259,22 @@
         private System.Windows.Forms.ToolStripMenuItem salvoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startServerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectToServerToolStripMenuItem;
+        private System.Windows.Forms.Button btnLaunch;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ComboBox cbLocation;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lHitMiss;
+        private System.Windows.Forms.Label lGrid;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label lOHit;
+        private System.Windows.Forms.Label lOGrid;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

@@ -1,49 +1,70 @@
 ﻿using GenericProtocol.Implementation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using pa8_c00061075.Structs;
 
 namespace pa8_c00061075.Networking
 {
     class Client
     {
         private string _serverIp;
-        private static ProtoClient<string> _client;
+        private static ProtoClient<SalvoData> _client;
 
+        public event AttackHandler Attack = delegate { };
+        public delegate void AttackHandler(SalvoAttack attack);
+
+        public event AttackResultHandler AttackResult = delegate { };
+        public delegate void AttackResultHandler(SalvoAttackResult attackResult);
+
+        public event WinResultHandler WinResult = delegate { };
+        public delegate void WinResultHandler(SalvoWinResult winResult);
 
         public Client(string ipAddress)
         {
             _serverIp = ipAddress;
+            _client = new ProtoClient<SalvoData>(IPAddress.Parse(_serverIp), 51111)
+            {
+                AutoReconnect = true, 
+                ReceiveBufferSize = 1024 * 10, 
+                SendBufferSize = 1024 * 10
+            };
+            _client.ReceivedMessage += ClientMessageReceived;
+            _client.ConnectionLost += Client_ConnectionLost;
         }
 
         public void StartClient()
         {
-            _client = new ProtoClient<string>(IPAddress.Parse(_serverIp), 51111) { AutoReconnect = true };
-            _client.ReceivedMessage += ClientMessageReceived;
-            _client.ConnectionLost += Client_ConnectionLost;
-
             Console.WriteLine("Connecting");
             _client.Connect().GetAwaiter().GetResult();
             Console.WriteLine("Connected!");
-            _client.Send("Hello Server!").GetAwaiter().GetResult();
         }
 
-        private void SendToServer(string message)
+        public void LaunchAttack(SalvoData data)
         {
-            _client?.Send(message);
+            _client?.Send(data);
+        }
+
+        public void SendAttackResult(SalvoData result)
+        {
+            _client?.Send(result);
+        }
+        public void SendWinResult(SalvoData data)
+        {
+            _client?.Send(data);
         }
         private void Client_ConnectionLost(IPEndPoint endPoint)
         {
             Console.WriteLine($"Connection lost! {endPoint.Address}");
         }
-        private static void ClientMessageReceived(IPEndPoint sender, string message)
+
+        private void ClientMessageReceived(IPEndPoint sender, SalvoData data)
         {
-            MessageBox.Show($"{sender}: {message}");
-            Console.WriteLine($"{sender}: {message}");
+            Console.WriteLine(data.Message);
+            if (data.IsAttack)
+                Attack(data.Attack);
+
+            if (data.IsAttackResult)
+                AttackResult(data.AttackResult);
         }
     }
 }

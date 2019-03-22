@@ -2,6 +2,8 @@
 using pa8_c00061075.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 
 namespace pa8_c00061075.Game
 {
@@ -127,16 +129,52 @@ namespace pa8_c00061075.Game
             };
         }
 
-        private bool IsLeftCorner(int x, int y)
+        public void MarkHitOnEnemyShip(Coordinates coords)
         {
-            return (x == 0 && y == 0) || (x == 4 && y == 0);
+            foreach (Coordinates c in Ships[1].Location.Coordinates)
+            {
+                if (c.Equals(coords))
+                {
+                    c.IsHit = true;
+                    break;
+                }
+                    
+            }
         }
 
-        private bool IsRightCorner(int x, int y)
+        public void MarkHitOnMyShip(Coordinates coords)
         {
-            return (x == 0 && y == 4) || (x == 4 && y == 4);
+            foreach (Coordinates c in Ships[0].Location.Coordinates)
+            {
+                if (c.Equals(coords))
+                {
+                    c.IsHit = true;
+                    break;
+                }
+                    
+            }
+        }
+        public bool DidSinkEnemy()
+        {
+            foreach(Coordinates c in Ships[1].Location.Coordinates)
+                if (!c.IsHit)
+                    return false;
+            return true;
         }
 
+        public bool IsHit(Coordinates coordinates)
+        {
+            foreach(Coordinates c in Ships[0].Location.Coordinates)
+            {
+                if (c.Equals(coordinates))
+                {
+                    c.IsHit = true;
+                    return true;
+                }
+                    
+            }
+            return Ships[0].Location.Coordinates.FirstOrDefault(x => x == coordinates) != null;
+        }
         private ShipOrientation ChooseShipOrientation()
         {
             if (_random.Next(0, 2) == 0)

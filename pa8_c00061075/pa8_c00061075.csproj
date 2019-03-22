@@ -42,8 +42,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
     <Reference Include="ZeroFormatter, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZeroFormatter.1.6.4\lib\net45\ZeroFormatter.dll</HintPath>
     </Reference>
@@ -54,6 +56,10 @@
   <ItemGroup>
     <Compile Include="Enums\ShipOrientation.cs" />
     <Compile Include="Networking\Client.cs" />
+    <Compile Include="Structs\SalvoAttack.cs" />
+    <Compile Include="Structs\SalvoAttackResult.cs" />
+    <Compile Include="Structs\SalvoData.cs" />
+    <Compile Include="Structs\SalvoWinResult.cs" />
     <Compile Include="UI\FormClientConnect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +79,12 @@
     <Compile Include="Networking\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\FormGameOver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormGameOver.Designer.cs">
+      <DependentUpon>FormGameOver.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="UI\FormClientConnect.resx">
       <DependentUpon>FormClientConnect.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\FormGameOver.resx">
+      <DependentUpon>FormGameOver.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
