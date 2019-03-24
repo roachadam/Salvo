@@ -19,6 +19,8 @@ namespace pa8_c00061075.UI
         private Client _client;
 
         private bool _shouldProcess = true;
+        private bool _isExiting;
+
         #region  " Form "
 
         public FormMain()
@@ -43,7 +45,8 @@ namespace pa8_c00061075.UI
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            if(!_isExiting)
+                CheckExit();
         }
 
         private void PopulateLocations()
@@ -429,8 +432,28 @@ namespace pa8_c00061075.UI
             return result + x;
         }
 
+
         #endregion
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckExit();
+        }
 
+        private void CheckExit()
+        {
+            _isExiting = true;
+
+            if(MessageBox.Show("Are you sure you want to exit? The current game state will be lost.", 
+                   "Are you use?", MessageBoxButtons.OKCancel,MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                _server?.StopServer();
+                _client?.StopClient();
+
+                Application.Exit();
+            }
+
+            _isExiting = false;
+        }
     }
 }

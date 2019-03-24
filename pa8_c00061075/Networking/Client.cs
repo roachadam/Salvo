@@ -39,6 +39,12 @@ namespace pa8_c00061075.Networking
             Console.WriteLine("Connected!");
         }
 
+        public void StopClient()
+        {
+            if(_client?.ConnectionStatus == ConnectionStatus.Connected)            
+                _client?.Disconnect();
+        }
+
         public void LaunchAttack(SalvoData data)
         {
             _client?.Send(data);
@@ -65,6 +71,9 @@ namespace pa8_c00061075.Networking
 
             if (data.IsAttackResult)
                 AttackResult(data.AttackResult);
+
+            if (data.IsWinResult)
+                WinResult(data.SalvoWinResult);
         }
     }
 }

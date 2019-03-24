@@ -39,6 +39,11 @@ namespace pa8_c00061075.Networking
             Console.WriteLine("Server started!");
         }
 
+        public void StopServer()
+        {
+            _server?.Stop();
+        }
+
         private void ServerMessageReceived(IPEndPoint sender, SalvoData data)
         {
             Console.WriteLine(data.Message);
@@ -48,6 +53,8 @@ namespace pa8_c00061075.Networking
             if (data.IsAttackResult)
                 AttackResult(data.AttackResult);
 
+            if (data.IsWinResult)
+                WinResult(data.SalvoWinResult);
         }
 
         public void SendAttackResult(SalvoData result)
