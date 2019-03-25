@@ -22,11 +22,13 @@ namespace pa8_c00061075.UI
         private void btnConnect_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(tbIp.Text)) return;
-            
+
+            string ip = tbIp.Text.Trim();
             new Thread(() =>
             {
-                _formMain.ConnectClient(tbIp.Text);
+                _formMain.ConnectClient(ip);
             }).Start();
+            Hide();
             //Thread.Sleep(500);
             //Hide();
         }

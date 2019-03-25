@@ -1,13 +1,13 @@
 ﻿using GenericProtocol.Implementation;
 using System;
 using System.Net;
+using System.Windows.Forms;
 using pa8_c00061075.Structs;
 
 namespace pa8_c00061075.Networking
 {
     class Client
     {
-        private string _serverIp;
         private static ProtoClient<SalvoData> _client;
 
         public event AttackHandler Attack = delegate { };
@@ -21,8 +21,7 @@ namespace pa8_c00061075.Networking
 
         public Client(string ipAddress)
         {
-            _serverIp = ipAddress;
-            _client = new ProtoClient<SalvoData>(IPAddress.Parse(_serverIp), 51111)
+            _client = new ProtoClient<SalvoData>(IPAddress.Parse(ipAddress), 51111)
             {
                 AutoReconnect = true, 
                 ReceiveBufferSize = 1024 * 10, 
@@ -30,13 +29,23 @@ namespace pa8_c00061075.Networking
             };
             _client.ReceivedMessage += ClientMessageReceived;
             _client.ConnectionLost += Client_ConnectionLost;
+            
         }
 
         public void StartClient()
         {
             Console.WriteLine("Connecting");
-            _client.Connect().GetAwaiter().GetResult();
-            Console.WriteLine("Connected!");
+            try
+            {
+                _client.Connect().GetAwaiter().GetResult();
+            }
+            catch 
+            {
+                MessageBox.Show("Server disconnected");
+                Environment.Exit(0);  // Force close to prevent close confirmation
+            }
+            
+            
         }
 
         public void StopClient()

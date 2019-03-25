@@ -104,22 +104,22 @@
             this.salvoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbLocation = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
+            this.cbLocation = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.lGrid = new System.Windows.Forms.Label();
             this.lHitMiss = new System.Windows.Forms.Label();
+            this.lGrid = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lOHit = new System.Windows.Forms.Label();
             this.lOGrid = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -920,16 +920,28 @@
             // startServerToolStripMenuItem
             // 
             this.startServerToolStripMenuItem.Name = "startServerToolStripMenuItem";
-            this.startServerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.startServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startServerToolStripMenuItem.Text = "Start Server";
             this.startServerToolStripMenuItem.Click += new System.EventHandler(this.startServerToolStripMenuItem_Click);
             // 
             // connectToServerToolStripMenuItem
             // 
             this.connectToServerToolStripMenuItem.Name = "connectToServerToolStripMenuItem";
-            this.connectToServerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.connectToServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.connectToServerToolStripMenuItem.Text = "Connect to Server";
             this.connectToServerToolStripMenuItem.Click += new System.EventHandler(this.connectToServerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // btnLaunch
             // 
@@ -953,15 +965,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Launch Attack";
             // 
-            // cbLocation
-            // 
-            this.cbLocation.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbLocation.FormattingEnabled = true;
-            this.cbLocation.Location = new System.Drawing.Point(111, 31);
-            this.cbLocation.Name = "cbLocation";
-            this.cbLocation.Size = new System.Drawing.Size(84, 21);
-            this.cbLocation.TabIndex = 98;
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
@@ -970,6 +973,15 @@
             this.label23.Size = new System.Drawing.Size(87, 13);
             this.label23.TabIndex = 99;
             this.label23.Text = "Grid Location:";
+            // 
+            // cbLocation
+            // 
+            this.cbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLocation.FormattingEnabled = true;
+            this.cbLocation.Location = new System.Drawing.Point(111, 31);
+            this.cbLocation.Name = "cbLocation";
+            this.cbLocation.Size = new System.Drawing.Size(84, 21);
+            this.cbLocation.TabIndex = 98;
             // 
             // groupBox2
             // 
@@ -984,23 +996,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Last Attack Result";
             // 
-            // label24
+            // lHitMiss
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(27, 26);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(87, 13);
-            this.label24.TabIndex = 99;
-            this.label24.Text = "Grid Location:";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(43, 45);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(71, 13);
-            this.label25.TabIndex = 100;
-            this.label25.Text = "Hit or Miss:";
+            this.lHitMiss.AutoSize = true;
+            this.lHitMiss.Location = new System.Drawing.Point(120, 45);
+            this.lHitMiss.Name = "lHitMiss";
+            this.lHitMiss.Size = new System.Drawing.Size(28, 13);
+            this.lHitMiss.TabIndex = 102;
+            this.lHitMiss.Text = "N/A";
             // 
             // lGrid
             // 
@@ -1011,14 +1014,23 @@
             this.lGrid.TabIndex = 101;
             this.lGrid.Text = "N/A";
             // 
-            // lHitMiss
+            // label25
             // 
-            this.lHitMiss.AutoSize = true;
-            this.lHitMiss.Location = new System.Drawing.Point(120, 45);
-            this.lHitMiss.Name = "lHitMiss";
-            this.lHitMiss.Size = new System.Drawing.Size(28, 13);
-            this.lHitMiss.TabIndex = 102;
-            this.lHitMiss.Text = "N/A";
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(43, 45);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(71, 13);
+            this.label25.TabIndex = 100;
+            this.label25.Text = "Hit or Miss:";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(27, 26);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(87, 13);
+            this.label24.TabIndex = 99;
+            this.label24.Text = "Grid Location:";
             // 
             // groupBox3
             // 
@@ -1068,18 +1080,6 @@
             this.label29.Size = new System.Drawing.Size(87, 13);
             this.label29.TabIndex = 99;
             this.label29.Text = "Grid Location:";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // FormMain
             // 

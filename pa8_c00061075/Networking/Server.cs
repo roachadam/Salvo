@@ -1,9 +1,8 @@
 ﻿
 using GenericProtocol.Implementation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
+using System.Windows.Forms;
 using pa8_c00061075.Structs;
 
 namespace pa8_c00061075.Networking
@@ -29,8 +28,11 @@ namespace pa8_c00061075.Networking
                 SendBufferSize = 1024 * 10
             };
             _server.ClientConnected += ClientConnected;
+            _server.ClientDisconnected += _server_ClientDisconnected;
             _server.ReceivedMessage += ServerMessageReceived;
         }
+
+
 
         public void StartServer()
         {
@@ -75,7 +77,13 @@ namespace pa8_c00061075.Networking
         {
             Console.WriteLine("Client connected");
         }
-
+        private void _server_ClientDisconnected(IPEndPoint endPoint)
+        {
+            StopServer();
+            MessageBox.Show("Parterner disconnected. Game over!");
+            
+            Environment.Exit(0); // Force close to prevent close confirmation
+        }
     }
 
 }

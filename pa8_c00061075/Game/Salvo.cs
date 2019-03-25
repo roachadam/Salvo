@@ -27,10 +27,10 @@ namespace pa8_c00061075.Game
 
 
             Ship yourShip = GetRandomShip();
-            Ship opponentShip = GetRandomShip();
+            //Ship opponentShip = GetRandomShip();
 
             Ships.Add(yourShip);
-            Ships.Add(opponentShip);
+            //Ships.Add(opponentShip);
 
         }
 
@@ -129,18 +129,18 @@ namespace pa8_c00061075.Game
             };
         }
 
-        public void MarkHitOnEnemyShip(Coordinates coords)
-        {
-            foreach (Coordinates c in Ships[1].Location.Coordinates)
-            {
-                if (c.Equals(coords))
-                {
-                    c.IsHit = true;
-                    break;
-                }
+        //public void MarkHitOnEnemyShip(Coordinates coords)
+        //{
+        //    foreach (Coordinates c in Ships[1].Location.Coordinates)
+        //    {
+        //        if (c.Equals(coords))
+        //        {
+        //            c.IsHit = true;
+        //            break;
+        //        }
                     
-            }
-        }
+        //    }
+        //}
 
         public void MarkHitOnMyShip(Coordinates coords)
         {
@@ -154,9 +154,9 @@ namespace pa8_c00061075.Game
                     
             }
         }
-        public bool DidSinkEnemy()
+        public bool IsMyShipDead()
         {
-            foreach(Coordinates c in Ships[1].Location.Coordinates)
+            foreach (Coordinates c in Ships[0].Location.Coordinates)
                 if (!c.IsHit)
                     return false;
             return true;

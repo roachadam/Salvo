@@ -13,14 +13,12 @@ namespace pa8_c00061075.UI
 {
     public partial class FormMain : Form
     {
-        private Salvo _salvo;
+        private Salvo _salvo; // Main salvo game logic
+        private Server _server; // Server instance
+        private Client _client; // Client instance
+        private bool _isExiting; // Used to prevent double confirmation box
 
-        private Server _server;
-        private Client _client;
-
-        private bool _shouldProcess = true;
-        private bool _isExiting;
-
+       
         #region  " Form "
 
         public FormMain()
@@ -31,6 +29,9 @@ namespace pa8_c00061075.UI
             DrawMyShip();
         }
 
+        /// <summary>
+        /// Form load method
+        /// </summary>
         private void FormMain_Load(object sender, EventArgs e)
         {
             //DEBUGGING ONLY
@@ -39,26 +40,27 @@ namespace pa8_c00061075.UI
             //else
             //    ConnectClient("127.0.0.1");
 
-
             PopulateLocations();
         }
 
+        /// <summary>
+        /// Form close method; asks for confirmation
+        /// </summary>
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(!_isExiting)
                 CheckExit();
         }
 
+        /// <summary>
+        /// Populates attack launch box with grid locations
+        /// </summary>
         private void PopulateLocations()
         {
             string[] col = new[] { "A", "B", "C", "D", "E" };
             for (int i = 0; i < 5; i++)
-            {
                 for (int j = 0; j < 5; j++)
-                {
                     cbLocation.Items.Add(col[j] + (i + 1));
-                }
-            }
 
             cbLocation.SelectedIndex = 0;
         }
@@ -67,6 +69,9 @@ namespace pa8_c00061075.UI
 
         #region " Menu Strip "
 
+        /// <summary>
+        /// Handles starting server
+        /// </summary>
         private void startServerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_server != null)
@@ -80,22 +85,33 @@ namespace pa8_c00061075.UI
             Clipboard.SetText("127.0.0.1");
             //MessageBox.Show($"Your IP Address is: {ip}\n\nIt has been copied to your clipboard to send to your opponent!"); 
 
-
-            // Wait for opponent to connect
-
             //Enabled = false;
         }
 
-
+        /// <summary>
+        /// Handles connecting to server
+        /// </summary>
         private void connectToServerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new FormClientConnect(this).ShowDialog();
+        }
+
+        /// <summary>
+        /// Exits application
+        /// </summary>
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckExit();
         }
 
         #endregion
 
         #region " Draw Ship "
 
+        /// <summary>
+        /// Marks hit on your ship by making grid location red
+        /// </summary>
+        /// <param name="coords">Coordinates to mark</param>
         private void MarkHit(Coordinates coords)
         {
             Invoke(new MethodInvoker(() =>
@@ -112,11 +128,13 @@ namespace pa8_c00061075.UI
                         b.BackColor = Color.Red;
                         b.Invoke(new MethodInvoker(() => b.Enabled = false));
                     }
-
                 }
             }));
-
         }
+
+        /// <summary>
+        /// Draws the location of your ship on the grid
+        /// </summary>
         private void DrawMyShip()
         {
             Location myShipLoc = _salvo.Ships[0].Location;
@@ -136,6 +154,10 @@ namespace pa8_c00061075.UI
             }
         }
 
+        /// <summary>
+        /// Converts from the coordinate class to button name (grid location)
+        /// </summary>
+        /// <returns>Button name</returns>
         private string GetTileName(Coordinates coords)
         {
             return "y" + coords.X + coords.Y;
@@ -143,12 +165,14 @@ namespace pa8_c00061075.UI
 
         #endregion
 
+        #region " Event Handlers "
 
-        // Called when opponent attacks you
+        /// <summary>
+        /// Called when opponent attacks you and handles the game logic accordingly
+        /// </summary>
+        /// <param name="attack">Attack data</param>
         private void Attack(SalvoAttack attack)
         {
-            if (!_shouldProcess)
-                return;
             Coordinates attackCoords = new Coordinates(attack.X, attack.Y);
             bool wasHit = _salvo.IsHit(attackCoords);
             if (wasHit)
@@ -156,96 +180,17 @@ namespace pa8_c00061075.UI
                 MarkHit(attackCoords);
                 _salvo.MarkHitOnMyShip(attackCoords);
             }
-               
+              
+            bool wasFinalBlow = _salvo.IsMyShipDead();
 
-            _server?.SendAttackResult(new SalvoData()
-            {
-                IsAttackResult = true,
-                AttackResult = new SalvoAttackResult()
-                {
-                    WasHit = wasHit,
-                }
-            });
-            _client?.SendAttackResult(new SalvoData()
-            {
-                IsAttackResult = true,
-                AttackResult = new SalvoAttackResult()
-                {
-                    WasHit = wasHit,
-                }
-            });
-            //bool wasFinalBlow = _salvo.ShipSunk();
-
-            //if (wasFinalBlow)
-            //{
-            //    _server?.SendWinResult(new SalvoData()
-            //    {
-            //        IsWinResult = true,
-            //        SalvoWinResult = new SalvoWinResult()
-            //        {
-            //            DidWin = false
-            //        }
-            //    });
-            //    _client?.SendWinResult(new SalvoData()
-            //    {
-            //        IsWinResult = true,
-            //        SalvoWinResult = new SalvoWinResult()
-            //        {
-            //            DidWin = false
-            //        }
-            //    });
-            //    new FormGameOver(true).ShowDialog();
-            //    Application.Exit();
-            //}
-            //else
-            //{
-            //    _server?.SendAttackResult(new SalvoData()
-            //    {
-            //        IsAttackResult = true,
-            //        AttackResult = new SalvoAttackResult()
-            //        {
-            //            WasHit = wasHit,
-            //        }
-            //    });
-            //    _client?.SendAttackResult(new SalvoData()
-            //    {
-            //        IsAttackResult = true,
-            //        AttackResult = new SalvoAttackResult()
-            //        {
-            //            WasHit = wasHit,
-            //        }
-            //    });
-            //}
-
-            lOGrid.Invoke(new MethodInvoker(() => lOGrid.Text = GetGridLocation(attackCoords)));
-            lOHit.Invoke(new MethodInvoker(() => lOHit.Text = (wasHit ? "Hit!" : "Miss!")));
-            btnLaunch.Invoke(new MethodInvoker(() => btnLaunch.Enabled = true));
-
-        }
-
-        // Called after you attack
-        private void AttackResult(SalvoAttackResult attackResult)
-        {
-            if (!_shouldProcess)
-                return;
-            if (attackResult.WasHit)
-            {
-                lHitMiss.Invoke(new MethodInvoker(() => lHitMiss.Text = "Hit!"));
-                _salvo.MarkHitOnEnemyShip(_lastAttack);
-            }
-            else
-            {
-                lHitMiss.Invoke(new MethodInvoker(() => lHitMiss.Text = "Miss!"));
-            }
-
-            if (_salvo.DidSinkEnemy())
+            if (wasFinalBlow)
             {
                 _server?.SendWinResult(new SalvoData()
                 {
                     IsWinResult = true,
                     SalvoWinResult = new SalvoWinResult()
                     {
-                        DidWin = false
+                        DidWin = true
                     }
                 });
                 _client?.SendWinResult(new SalvoData()
@@ -253,40 +198,63 @@ namespace pa8_c00061075.UI
                     IsWinResult = true,
                     SalvoWinResult = new SalvoWinResult()
                     {
-                        DidWin = false
+                        DidWin = true
                     }
                 });
-                new FormGameOver(true).ShowDialog();
+                new FormGameOver(false).ShowDialog();
                 Application.Exit();
             }
+            else
+            {
+                _server?.SendAttackResult(new SalvoData()
+                {
+                    IsAttackResult = true,
+                    AttackResult = new SalvoAttackResult()
+                    {
+                        WasHit = wasHit,
+                    }
+                });
+                _client?.SendAttackResult(new SalvoData()
+                {
+                    IsAttackResult = true,
+                    AttackResult = new SalvoAttackResult()
+                    {
+                        WasHit = wasHit,
+                    }
+                });
+            }
 
+            lOGrid.Invoke(new MethodInvoker(() => lOGrid.Text = GetGridLocation(attackCoords)));
+            lOHit.Invoke(new MethodInvoker(() => lOHit.Text = (wasHit ? "Hit!" : "Miss!")));
+            btnLaunch.Invoke(new MethodInvoker(() => btnLaunch.Enabled = true));
         }
 
+        /// <summary>
+        /// Called when you attack an opponent and handles the game logic accordingly
+        /// </summary>
+        /// <param name="attack">Result of your attack</param>
+        private void AttackResult(SalvoAttackResult attackResult)
+        {
+            lHitMiss.Invoke(attackResult.WasHit ? new MethodInvoker(() => lHitMiss.Text = "Hit!") : new MethodInvoker(() => lHitMiss.Text = "Miss!"));
+        }
+
+        /// <summary>
+        /// Occurs when game is over
+        /// </summary>
+        /// <param name="winResult">Result of game</param>
         private void WinResult(SalvoWinResult winResult)
         {
             new FormGameOver(winResult.DidWin).ShowDialog();
-            Application.Exit();
+            Environment.Exit(0);
         }
 
-        public void ConnectClient(string ip)
-        {
-            if (_client != null)
-                return;
-            _client = new Client(ip);
-            _client.Attack += Attack;
-            _client.AttackResult += AttackResult;
-            _client.WinResult += WinResult;
-            new Thread(() =>
-            {
-                _client.StartClient();
-            }).Start();
-        }
-
-
-
+        #endregion
 
         #region  " Buttons "
 
+        /// <summary>
+        /// Handles coloring logic to mark attacked grid locations and if they were hits or not
+        /// </summary>
         private void your_click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -313,6 +281,11 @@ namespace pa8_c00061075.UI
             }
         }
 
+        /// <summary>
+        /// Handles coloring logic to mark where you attacked opponenet and if it was a hit or miss
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void opponent_click(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -329,7 +302,9 @@ namespace pa8_c00061075.UI
                 b.BackColor = Color.Red;
         }
 
-        private Coordinates _lastAttack;
+        /// <summary>
+        /// Launches attack on opponent and sends attack over network
+        /// </summary>
         private void btnLaunch_Click(object sender, EventArgs e)
         {
             Coordinates coords = GetCoordinates();
@@ -351,7 +326,6 @@ namespace pa8_c00061075.UI
                 IsAttack = true,
                 Attack = attack
             });
-            _lastAttack = coords;
             lGrid.Text = cbLocation.Text;
             btnLaunch.Enabled = false;
         }
@@ -360,6 +334,10 @@ namespace pa8_c00061075.UI
 
         #region  " Helper Methods "
 
+        /// <summary>
+        /// Gets your IP address for P2P connection (unusued for local testing.)
+        /// </summary>
+        /// <returns>Your IP address</returns>
         private string GetIPAddress()
         {
             try
@@ -376,6 +354,10 @@ namespace pa8_c00061075.UI
             }
         }
 
+        /// <summary>
+        /// Converts grid location to 5x5 matrix grid location
+        /// </summary>
+        /// <returns>Coordinates of attack grid location</returns>
         private Coordinates GetCoordinates()
         {
             string letter = cbLocation.Text.Substring(0, 1);
@@ -400,12 +382,16 @@ namespace pa8_c00061075.UI
                     y = 4;
                     break;
             }
+
             int x = int.Parse(num) - 1;
-
-
             return new Coordinates(x, y);
         }
 
+        /// <summary>
+        /// Converts coordinates to grid location
+        /// </summary>
+        /// <param name="coords">Coordinates 5x5</param>
+        /// <returns>Grid location</returns>
         private string GetGridLocation(Coordinates coords)
         {
             string result = string.Empty;
@@ -432,14 +418,28 @@ namespace pa8_c00061075.UI
             return result + x;
         }
 
-
-        #endregion
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Connects client to server
+        /// </summary>
+        /// <param name="ip">Server ip address</param>
+        public void ConnectClient(string ip)
         {
-            CheckExit();
+            if (_client != null)
+                return;
+            _client = new Client(ip);
+            _client.Attack += Attack;
+            _client.AttackResult += AttackResult;
+            _client.WinResult += WinResult;
+            new Thread(() =>
+            {
+                _client.StartClient();
+            }).Start();
+            btnLaunch.Invoke(new MethodInvoker(() => btnLaunch.Enabled = false));
         }
 
+        /// <summary>
+        /// Confirms that the user wishes to close and end the game
+        /// </summary>
         private void CheckExit()
         {
             _isExiting = true;
@@ -455,5 +455,8 @@ namespace pa8_c00061075.UI
 
             _isExiting = false;
         }
+
+        #endregion
+
     }
 }
